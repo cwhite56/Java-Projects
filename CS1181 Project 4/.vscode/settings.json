@@ -1,0 +1,9 @@
+{
+    "java.project.sourcePaths": [
+        "src"
+    ],
+    "java.project.outputPath": "bin",
+    "java.project.referencedLibraries": [
+        "c:\\Users\\drago\\Documents\\CS1181\\CS1181 Project 4\\lib\\zip4j-1.3.2.jar"
+    ]
+}
