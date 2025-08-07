@@ -8,7 +8,7 @@ public class Driver {
         ArrayList<Item> list = GeneticAlgorithm.readData("src\\items.txt");
         Random rng = new Random();
 
-        //Initialize population
+        //Initialize population size
         ArrayList<Chromosome> currentPopulation = GeneticAlgorithm.initializePopulation(list, 10);
         ArrayList<Chromosome> newPopulation = new ArrayList<>();
         
