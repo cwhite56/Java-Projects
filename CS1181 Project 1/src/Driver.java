@@ -5,7 +5,7 @@ import java.util.*;
 public class Driver {
     public static void main(String[] args) throws FileNotFoundException {
         //Read file to get blueprint list of items
-        ArrayList<Item> list = GeneticAlgorithm.readData("src\\items.txt");
+        ArrayList<Item> list = GeneticAlgorithm.readData("CS1181 Project 1\\src\\items.txt");
         Random rng = new Random();
 
         //Initialize population size

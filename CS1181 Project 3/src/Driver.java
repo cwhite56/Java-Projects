@@ -115,7 +115,7 @@ public class Driver {
      * @throws FileNotFoundException
      */
     public static void populateTrainSchedule(PriorityQueue<Event> pq) throws FileNotFoundException {
-        FileInputStream fileStream = new FileInputStream("src//train_schedule.txt");
+        FileInputStream fileStream = new FileInputStream("CS1181 Project 3\\src\\train_schedule.txt");
         Scanner fileReader = new Scanner(fileStream);
         int i = 1;
         // Add each train to the schedule
