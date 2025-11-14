@@ -2,6 +2,7 @@ import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
+import java.util.zip.ZipFile;
 import net.lingala.zip4j.core.*;
 import net.lingala.zip4j.exception.*;
 
@@ -31,11 +32,11 @@ public class CustomThread extends Thread {
 
             boolean check = correctPasswordCheck(passwordChunk.get(j), destinationFilename, i);
             if (check) {
-                Example.setCheck();
+                PasswordCracker.setCheck();
                 System.out.println("Password: " + passwordChunk.get(j));
             }
             // Password found
-            if (Example.getCheck()) {
+            if (PasswordCracker.getCheck()) {
                 break;
             }
         }

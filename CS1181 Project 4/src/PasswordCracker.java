@@ -1,7 +1,6 @@
 import java.util.ArrayList;
 import java.util.zip.ZipException;
 import java.util.zip.ZipFile;
-
 import net.lingala.zip4j.core.*;
 import net.lingala.zip4j.exception.*;
 
@@ -9,7 +8,7 @@ import net.lingala.zip4j.exception.*;
 // 3 Threads: I was working on this the day it was due. 4 threads took 4 hours. 
 // Unfortuneately I did not have time to run the 3 thread version before the deadline
 // 4 Threads: 15013840 milliseconds
-public class Example {
+public class PasswordCracker {
 	public static ArrayList<String> passwordList = new ArrayList<>();
 	private volatile static boolean passwordFound = false;
 
