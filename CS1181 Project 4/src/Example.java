@@ -1,4 +1,7 @@
 import java.util.ArrayList;
+import java.util.zip.ZipException;
+import java.util.zip.ZipFile;
+
 import net.lingala.zip4j.core.*;
 import net.lingala.zip4j.exception.*;
 
@@ -13,8 +16,8 @@ public class Example {
 	public static void main(String[] args) throws Exception {
 		// Part A
 		long currTime = System.currentTimeMillis();
-
-		passwordGeneratorLengthThree();
+		String temp = "";
+		passwordGenerator(3, temp);
 		// Password brute force loop
 		for (int i = 0; i < passwordList.size(); i++) {
 			boolean check = correctPasswordCheck(passwordList.get(i));
@@ -29,7 +32,7 @@ public class Example {
 		currTime = System.currentTimeMillis();
 		int numThreads = 4;
 		ArrayList<Thread> threadList = new ArrayList<>();
-		passwordGeneratorLengthFive();
+		passwordGenerator(5, temp);
 		int chunkSize = passwordList.size() / numThreads;
 		int startIndex = 0;
 		int endIndex = chunkSize;
@@ -51,55 +54,22 @@ public class Example {
 		System.out.println("Password found in: " + (System.currentTimeMillis() - currTime) + " milliseconds.");
 
 	}
-
 	/**
-	 * Very sad and ugly non-recursive password generator that creates all potential
-	 * 3 length passwords
-	 */
-	public static void passwordGeneratorLengthThree() {
-		for (char a = 'a'; a <= 'z'; a++) {
-
-			for (char b = 'a'; b <= 'z'; b++) {
-
-				for (char c = 'a'; c <= 'z'; c++) {
-					String temp = Character.toString(a);
-					temp += Character.toString(b);
-					temp += Character.toString(c);
-					passwordList.add(temp);
-				}
-			}
-		}
-
-	}
-
-	/**
-	 * Much sadder and uglier non-recursive password generator for passwords of
-	 * length 5
-	 */
-	public static void passwordGeneratorLengthFive() {
-		for (char a = 'a'; a <= 'z'; a++) {
-
-			for (char b = 'a'; b <= 'z'; b++) {
-
-				for (char c = 'a'; c <= 'z'; c++) {
-
-					for (char d = 'a'; d <= 'z'; d++) {
-
-						for (char e = 'a'; e <= 'z'; e++) {
-							String temp = Character.toString(a);
-							temp += Character.toString(b);
-							temp += Character.toString(c);
-							temp += Character.toString(d);
-							temp += Character.toString(e);
-							passwordList.add(temp);
-						}
-					}
-				}
-			}
-		}
-
-	}
-
+ * Method for generator every possible password with n lowercase characters
+ * @param length of the password
+ * @param temp temporary string
+ */
+    public static void passwordGenerator(int length, String temp) {
+        // base case
+        if( length == 0) {
+            passwordList.add(temp);
+            return;
+        }
+        // general case
+        for (char i = 'a'; i <= 'z'; i++) {
+            passwordGenerator(length - 1, temp + i);
+        }
+    }
 	/**
 	 * Helper method that tests each password entered
 	 * 
