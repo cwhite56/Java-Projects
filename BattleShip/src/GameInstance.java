@@ -20,6 +20,7 @@ public class GameInstance {
 		Battleship s2 = new Battleship(3, gridSize);
 		
 		while(collisionCheck(s2)) {
+			System.out.println("Remake ship 2");
 			s2 = new Battleship(3, gridSize);
 		}
 		shipList.add(s2);
@@ -30,7 +31,7 @@ public class GameInstance {
 		while(collisionCheck(s3)) {
 			s3 = new Battleship(3, gridSize);
 		}
-		shipList.add(s3);
+		shipList.add(s3); 
 	}
 	
 	public boolean collisionCheck(Battleship other) {
@@ -40,7 +41,7 @@ public class GameInstance {
 				
 				for (int j = 0; j < check.getSize(); j++) {
 					
-					if (check.getBody().get(i).getX() == other.getBody().get(j).getX() && check.getBody().get(i).getY() == other.getBody().get(j).getY()) {
+					if (check.get(i).getX() == other.get(j).getX() && check.get(i).getY() == other.get(j).getY()) {
 						return true;
 					}
 				}

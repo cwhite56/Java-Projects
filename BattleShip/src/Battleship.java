@@ -1,9 +1,8 @@
 import java.util.ArrayList;
 import java.util.Random;
 
-public class Battleship {
+public class Battleship extends ArrayList<ShipNode> {
 	
-	private ArrayList<ShipNode> body = new ArrayList<>();
 	private ShipNode head = new ShipNode();
 	private int shipSize;
 	private Random rng = new Random();
@@ -11,7 +10,7 @@ public class Battleship {
 	public Battleship(int shipSize, int gridSize) {
 		setHeadX(gridSize);
 		setHeadY(gridSize);
-		body.add(head);
+		this.add(head);
 		System.out.println("Head cords are: " + head.toString());
 		this.shipSize = shipSize;
 		
@@ -39,9 +38,6 @@ public class Battleship {
 		return shipSize;
 	}
 	
-	public ArrayList<ShipNode> getBody() {
-		return this.body;
-	}
 	
 	public void buildBodyHorizontally(int gridSize) {
 		for (int i = 0; i < shipSize - 1; i++) {
@@ -57,7 +53,7 @@ public class Battleship {
 			if (head.getX() - shipSize < 1) {
 				temp.setX(head.getX() + i + 1);
 			}
-			body.add(temp);
+			this.add(temp);
 			System.out.println("temp cords are: " + temp.toString());
 		}
 		
@@ -75,7 +71,7 @@ public class Battleship {
 			if (head.getY() - shipSize < 1) {
 				temp.setY(head.getY() + i + 1);
 			}
-			body.add(temp);
+			this.add(temp);
 			System.out.println("temp cords are: " + temp.toString());
 		}
 		
