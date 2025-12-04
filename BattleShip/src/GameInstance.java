@@ -1,31 +1,31 @@
 import java.util.ArrayList;
+import java.util.Scanner;
 
 public class GameInstance {
 	
 	private int gridSize;
 	private ArrayList<Battleship> shipList = new ArrayList<>();
+	private Scanner scnr = new Scanner(System.in);
 	
 	public GameInstance(int gridSize) {
 		this.gridSize = gridSize;
 		initShips(this.gridSize);
+		gameplayLoop();
 	}
 	
 	public void initShips(int gridSize) {
-		System.out.println("Ship 1: ");
 		
 		Battleship s1 = new Battleship(3, gridSize);
 		shipList.add(s1);
 		
-		System.out.println("Ship 2: ");
 		Battleship s2 = new Battleship(3, gridSize);
 		
 		while(collisionCheck(s2)) {
-			System.out.println("Remake ship 2");
+
 			s2 = new Battleship(3, gridSize);
 		}
 		shipList.add(s2);
 		
-		System.out.println("Ship 3: ");
 		Battleship s3 = new Battleship(3, gridSize);
 		
 		while(collisionCheck(s3)) {
@@ -48,5 +48,22 @@ public class GameInstance {
 			}
 		}
 		return false;
+	}
+	public void gameplayLoop() {
+		
+		System.out.println("Welcome to Battleship!");
+		System.out.println("Each move must be entered as two numbers separated by a space. These are your x and y components");
+		System.out.println("The grid size is a " + gridSize + "x" + gridSize);
+		System.out.println("Your guess can range from 0 to " + (gridSize - 1));
+		
+		while(!shipList.isEmpty()) {
+			System.out.println("Please enter your move: ");
+			int x = scnr.nextInt();
+			int y = scnr.nextInt();
+			
+			System.out.println("(" + x + "," + y + ")");
+			shipList.clear();
+			
+		}
 	}
 }
