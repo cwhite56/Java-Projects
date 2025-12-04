@@ -11,6 +11,7 @@ public class GameInstance {
 		this.gridSize = gridSize;
 		initShips(this.gridSize);
 		gameplayLoop();
+		System.out.println("You won!");
 	}
 	
 	public void initShips(int gridSize) {
@@ -61,9 +62,29 @@ public class GameInstance {
 			int x = scnr.nextInt();
 			int y = scnr.nextInt();
 			
-			System.out.println("(" + x + "," + y + ")");
-			shipList.clear();
-			
+			for (Battleship check : shipList) {
+				
+				for (int i = 0; i < check.size(); i++) {
+					
+					if (check.get(i).getX() == x && check.get(i).getY() == y) {
+						System.out.println("Hit!");
+						check.remove(i);
+						break;
+					}
+					else {
+						System.out.println("Miss!");
+						break;
+					}
+				}
+				if (check.isEmpty()) {
+					shipList.remove(check);
+					System.out.println("You sunk my battleship!");
+					break;
+				}
+				break;
+			}
+		
 		}
+		return;
 	}
 }

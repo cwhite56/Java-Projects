@@ -11,7 +11,7 @@ public class Battleship extends ArrayList<ShipNode> {
 		setHeadX(gridSize);
 		setHeadY(gridSize);
 		this.add(head);
-		//System.out.println("Head cords are: " + head.toString());
+		System.out.println("Head cords are: " + head.toString());
 		this.shipSize = shipSize;
 		
 		int temp = rng.nextInt(2);
@@ -54,7 +54,7 @@ public class Battleship extends ArrayList<ShipNode> {
 				temp.setX(head.getX() + i + 1);
 			}
 			this.add(temp);
-			//System.out.println("temp cords are: " + temp.toString());
+			System.out.println("temp cords are: " + temp.toString());
 		}
 		
 		
@@ -72,7 +72,7 @@ public class Battleship extends ArrayList<ShipNode> {
 				temp.setY(head.getY() + i + 1);
 			}
 			this.add(temp);
-			//System.out.println("temp cords are: " + temp.toString());
+			System.out.println("temp cords are: " + temp.toString());
 		}
 		
 		
