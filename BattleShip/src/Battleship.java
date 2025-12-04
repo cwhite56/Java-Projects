@@ -39,6 +39,10 @@ public class Battleship {
 		return shipSize;
 	}
 	
+	public ArrayList<ShipNode> getBody() {
+		return this.body;
+	}
+	
 	public void buildBodyHorizontally(int gridSize) {
 		for (int i = 0; i < shipSize - 1; i++) {
 			

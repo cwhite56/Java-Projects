@@ -11,18 +11,41 @@ public class GameInstance {
 	}
 	
 	public void initShips(int gridSize) {
-		// add checks for repeat
+		System.out.println("Ship 1: ");
+		
 		Battleship s1 = new Battleship(3, gridSize);
 		shipList.add(s1);
 		
+		System.out.println("Ship 2: ");
 		Battleship s2 = new Battleship(3, gridSize);
 		
-		// Do while loop to check
+		while(collisionCheck(s2)) {
+			s2 = new Battleship(3, gridSize);
+		}
+		shipList.add(s2);
 		
-		//Battleship s3 = new Battleship(3, gridSize);
+		System.out.println("Ship 3: ");
+		Battleship s3 = new Battleship(3, gridSize);
+		
+		while(collisionCheck(s3)) {
+			s3 = new Battleship(3, gridSize);
+		}
+		shipList.add(s3);
 	}
 	
-	public boolean collisionCheck(Battleship s1, Battleship s2) {
-		return true;
+	public boolean collisionCheck(Battleship other) {
+		for (Battleship check : shipList) {
+			
+			for (int i = 0; i < check.getSize(); i++) {
+				
+				for (int j = 0; j < check.getSize(); j++) {
+					
+					if (check.getBody().get(i).getX() == other.getBody().get(j).getX() && check.getBody().get(i).getY() == other.getBody().get(j).getY()) {
+						return true;
+					}
+				}
+			}
+		}
+		return false;
 	}
 }
