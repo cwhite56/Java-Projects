@@ -58,7 +58,10 @@ public class Battleship extends ArrayList<ShipNode> {
 			}
 			
 			this.add(temp);
+<<<<<<< HEAD
 			
+=======
+>>>>>>> ffde30c281dfde887d293ce37b0cebd36cc187e4
 		}
 		
 		
@@ -79,7 +82,10 @@ public class Battleship extends ArrayList<ShipNode> {
 				temp.setY((head.getY() + 1));
 			}
 			this.add(temp);
+<<<<<<< HEAD
 		
+=======
+>>>>>>> ffde30c281dfde887d293ce37b0cebd36cc187e4
 		}
 		
 		
