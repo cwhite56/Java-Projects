@@ -1,18 +1,8 @@
-## Getting Started
+# Brute Force Password Cracker
 
-Welcome to the VS Code Java world. Here is a guideline to help you get started to write Java code in Visual Studio Code.
-
-## Folder Structure
-
-The workspace contains two folders by default, where:
-
-- `src`: the folder to maintain sources
-- `lib`: the folder to maintain dependencies
-
-Meanwhile, the compiled output files will be generated in the `bin` folder by default.
-
-> If you want to customize the folder structure, open `.vscode/settings.json` and update the related settings there.
-
-## Dependency Management
-
-The `JAVA PROJECTS` view allows you to manage your dependencies. More details can be found [here](https://github.com/microsoft/vscode-java-dependency#manage-dependencies).
+## Overview
+For my final CS1181 project I was tasked with utilizing threads to crack into a password protected zip file. There are two difficult levels. protected3.zip and protected5.zip. These files have a 3 lowercase letter password and 5 lowercase letter password respectively.
+## Purpose
+The purpose of this project was to learn to chain threads together to work on a larger task as well as using recursion to generate all possible passwords.
+## Usage
+This program will no longer run unfortunately. I was given starter code that imported methods to test passwords on the zip files. This starter code broke and I haven't been able to figure out how to integrate them again.
