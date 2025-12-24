@@ -1,13 +1,12 @@
 import javax.swing.*;
-import javax.swing.border.Border;
 import javax.swing.border.CompoundBorder;
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.GridLayout;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
+/** Class that represents the Battleship GUI
+ */
 public class BattleshipGUI {
     
     private String[] letterAxis = {"A", "B", "C", "D", "E", "F", "G", "H", "I", "J"};
@@ -17,7 +16,11 @@ public class BattleshipGUI {
         initJFrame();
         
     }
+    /** Method to initialize all JComponents
+     * 
+     */
     public void initJFrame() {
+
         JFrame frame = new JFrame("Battleship");
         frame.setSize(500, 500);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -72,13 +75,16 @@ public class BattleshipGUI {
         JPanel submitArea = new JPanel();
         submitArea.setLayout(new BoxLayout(submitArea, BoxLayout.Y_AXIS));
         submitArea.setBackground(Color.LIGHT_GRAY);
+        frame.getContentPane().add(submitArea, BorderLayout.EAST);
+
         JButton submitButton = new JButton("Submit");
         submitButton.addActionListener(new SubmitButtonListener());
+        submitArea.add(submitButton);
+
         JButton cancelButton = new JButton("Cancel");
         cancelButton.addActionListener(new CancelButtonListener());
-        frame.getContentPane().add(submitArea, BorderLayout.EAST);
-        submitArea.add(submitButton);
         submitArea.add(cancelButton);
+
         frame.setVisible(true);
         
 
@@ -88,12 +94,17 @@ public class BattleshipGUI {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (selected) {
-                    for (int i = 0; i < buttonList.size(); i++) {
-                        buttonList.get(i).setBackground(new JButton().getBackground());
+
+                for (int i = 0; i < buttonList.size(); i++) {
+
+                    if (buttonList.get(i).getBackground() == Color.BLUE) {
+                        BattleshipClient.guess(i);
                     }
-                    selected = false;
+                    buttonList.get(i).setBackground(new JButton().getBackground());
+
                 }
+                selected = false;
+                
             }
 
         }
