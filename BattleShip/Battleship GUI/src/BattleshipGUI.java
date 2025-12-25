@@ -9,9 +9,9 @@ import java.util.ArrayList;
  */
 public class BattleshipGUI {
     
-    private String[] letterAxis = {"A", "B", "C", "D", "E", "F", "G", "H", "I", "J"};
+    private static String[] letterAxis = {"A", "B", "C", "D", "E", "F", "G", "H", "I", "J"};
     private static boolean selected = false;
-    private ArrayList<JButton> buttonList = new ArrayList<>();
+
     public BattleshipGUI() {
         initJFrame();
         
@@ -22,60 +22,29 @@ public class BattleshipGUI {
     public void initJFrame() {
 
         JFrame frame = new JFrame("Battleship");
-        frame.setSize(500, 500);
+        frame.setSize(1000, 500);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.getContentPane().setLayout(new BorderLayout());
+        frame.setResizable(false);
+        frame.getContentPane().setLayout(new BoxLayout(frame.getContentPane(), BoxLayout.X_AXIS));
 
-        JPanel gridPanel = new JPanel();
-        gridPanel.setLayout(new GridLayout(10, 10));
-        frame.getContentPane().add(gridPanel, BorderLayout.CENTER);
+        JPanel guessPanel = new JPanel();
+        guessPanel.setLayout(new BorderLayout());
+        frame.getContentPane().add(guessPanel);
+    
+        guessPanel.add(createButtonGrid(), BorderLayout.CENTER);
 
-        for (int i = 0; i < 100; i++) {
-            JButton button = new JButton();
-            buttonList.add(button);
-            gridPanel.add(button);
-            button.addActionListener((e) -> {if (!selected) {
-                selected = true;
-                button.setBackground(Color.BLUE);
-            }} );
-        }
-            
-        
+        guessPanel.add(createLetterAxis(), BorderLayout.WEST);
 
-        JPanel letterAxisPanel = new JPanel();
-        letterAxisPanel.setLayout(new BoxLayout(letterAxisPanel, BoxLayout.Y_AXIS));
-        letterAxisPanel.setBackground(Color.LIGHT_GRAY);
-        frame.getContentPane().add(letterAxisPanel, BorderLayout.WEST);
+        guessPanel.add(createNumberAxis(), BorderLayout.SOUTH);
 
-        CompoundBorder letterAxisBorder = new CompoundBorder(BorderFactory.createLineBorder(Color.BLACK, 1), BorderFactory.createEmptyBorder(14, 10, 10, 10));
-
-        for (int i = 0; i < letterAxis.length; i++) {
-            JLabel label = new JLabel(letterAxis[i]);
-            label.setBorder(letterAxisBorder);
-            letterAxisPanel.add(label);
-        }
-
-        JPanel numberAxisPanel = new JPanel();
-        numberAxisPanel.setLayout(new BoxLayout(numberAxisPanel, BoxLayout.X_AXIS));
-        numberAxisPanel.setBackground(Color.LIGHT_GRAY);
-        frame.getContentPane().add(numberAxisPanel, BorderLayout.SOUTH);
-
-        CompoundBorder numberAxisBorder = new CompoundBorder(BorderFactory.createLineBorder(Color.BLACK, 1), BorderFactory.createEmptyBorder(10, 13, 10, 15));
-
-        JLabel empty = new JLabel();
+        /*JLabel empty = new JLabel();
         empty.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 22));
-        numberAxisPanel.add(empty);
-
-        for (int i = 1; i <= letterAxis.length; i++) {
-            JLabel label = new JLabel(Integer.toString(i));
-            label.setBorder(numberAxisBorder);
-            numberAxisPanel.add(label);
-        }
+        numberAxisPanel.add(empty);*/
 
         JPanel submitArea = new JPanel();
         submitArea.setLayout(new BoxLayout(submitArea, BoxLayout.Y_AXIS));
         submitArea.setBackground(Color.LIGHT_GRAY);
-        frame.getContentPane().add(submitArea, BorderLayout.EAST);
+        guessPanel.add(submitArea, BorderLayout.EAST);
 
         JButton submitButton = new JButton("Submit");
         submitButton.addActionListener(new SubmitButtonListener());
@@ -85,6 +54,24 @@ public class BattleshipGUI {
         cancelButton.addActionListener(new CancelButtonListener());
         submitArea.add(cancelButton);
 
+        JPanel shipPlacementPanel = new JPanel();
+        shipPlacementPanel.setLayout(new BorderLayout());
+        frame.getContentPane().add(shipPlacementPanel);
+
+        shipPlacementPanel.add(createButtonGrid(), BorderLayout.CENTER);
+
+        shipPlacementPanel.add(createLetterAxis(), BorderLayout.WEST);
+
+        shipPlacementPanel.add(createNumberAxis(), BorderLayout.SOUTH);
+
+        JPanel placeArea = new JPanel();
+        placeArea.setLayout(new BoxLayout(placeArea, BoxLayout.Y_AXIS));
+        placeArea.setBackground(Color.LIGHT_GRAY);
+        shipPlacementPanel.add(placeArea, BorderLayout.EAST);
+
+        JButton placeButton = new JButton("Place");
+        placeArea.add(placeButton);
+
         frame.setVisible(true);
         
 
@@ -93,18 +80,7 @@ public class BattleshipGUI {
     class SubmitButtonListener implements ActionListener {
 
             @Override
-            public void actionPerformed(ActionEvent e) {
-
-                for (int i = 0; i < buttonList.size(); i++) {
-
-                    if (buttonList.get(i).getBackground() == Color.BLUE) {
-                        BattleshipClient.guess(i);
-                    }
-                    buttonList.get(i).setBackground(new JButton().getBackground());
-
-                }
-                selected = false;
-                
+            public void actionPerformed(ActionEvent e) {   
             }
 
         }
@@ -112,13 +88,51 @@ public class BattleshipGUI {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            if (selected) {
-                    for (int i = 0; i < buttonList.size(); i++) {
-                        buttonList.get(i).setBackground(new JButton().getBackground());
-                    }
-                    selected = false;
-                }
         }
 
+    }
+    public static JPanel createLetterAxis() {
+        JPanel letterAxisPanel = new JPanel();
+        letterAxisPanel.setLayout(new BoxLayout(letterAxisPanel, BoxLayout.Y_AXIS));
+        letterAxisPanel.setBackground(Color.LIGHT_GRAY);
+
+        CompoundBorder letterAxisBorder = new CompoundBorder(BorderFactory.createLineBorder(Color.BLACK, 1), BorderFactory.createEmptyBorder(12, 10, 12, 10));
+
+        for (int i = 0; i < letterAxis.length; i++) {
+            JLabel label = new JLabel(letterAxis[i]);
+            label.setBorder(letterAxisBorder);
+            letterAxisPanel.add(label);
+        }
+
+        return letterAxisPanel;
+
+    }
+    public static JPanel createNumberAxis() {
+        JPanel numberAxisPanel = new JPanel();
+        numberAxisPanel.setLayout(new BoxLayout(numberAxisPanel, BoxLayout.X_AXIS));
+        numberAxisPanel.setBackground(Color.LIGHT_GRAY);
+
+        CompoundBorder numberAxisBorder = new CompoundBorder(BorderFactory.createLineBorder(Color.BLACK, 1), BorderFactory.createEmptyBorder(10, 15, 10, 15));
+
+        JLabel empty = new JLabel();
+        empty.setBorder(BorderFactory.createEmptyBorder(10, 15, 10, 15));
+        numberAxisPanel.add(empty);
+
+        for (int i = 1; i <= letterAxis.length; i++) {
+            JLabel label = new JLabel(Integer.toString(i));
+            label.setBorder(numberAxisBorder);
+            numberAxisPanel.add(label);
+        }
+        return numberAxisPanel;
+    }
+    public static JPanel createButtonGrid() {
+        JPanel buttonGrid = new JPanel();
+        buttonGrid.setLayout(new GridLayout(10, 10));
+
+        for (int i = 0; i < 100; i++) {
+            JButton button = new JButton();
+            buttonGrid.add(button);
+        }
+        return buttonGrid;
     }
 }
