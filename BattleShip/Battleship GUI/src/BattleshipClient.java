@@ -1,13 +1,15 @@
 import java.io.*;
 import java.net.*;
+import java.util.ArrayList;
 
 public class BattleshipClient {
 	PrintWriter out;
 	BufferedReader in;
+	ArrayList<Boolean> playerShipList = new ArrayList<>();
+
 	public static void main(String[] args) throws IOException {
 		//BattleshipClient client = new BattleshipClient();
 		//client.setupNetworking();
-		//GameInstance bs = new GameInstance(10);
 		BattleshipGUI gui = new BattleshipGUI();
 	}
 

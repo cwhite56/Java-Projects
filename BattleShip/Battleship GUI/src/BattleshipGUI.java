@@ -37,10 +37,6 @@ public class BattleshipGUI {
 
         guessPanel.add(createNumberAxis(), BorderLayout.SOUTH);
 
-        /*JLabel empty = new JLabel();
-        empty.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 22));
-        numberAxisPanel.add(empty);*/
-
         JPanel submitArea = new JPanel();
         submitArea.setLayout(new BoxLayout(submitArea, BoxLayout.Y_AXIS));
         submitArea.setBackground(Color.LIGHT_GRAY);
@@ -91,6 +87,10 @@ public class BattleshipGUI {
         }
 
     }
+    /**
+     * Helper method to create the letter axis panel
+     * @return letter axis panel
+     */
     public static JPanel createLetterAxis() {
         JPanel letterAxisPanel = new JPanel();
         letterAxisPanel.setLayout(new BoxLayout(letterAxisPanel, BoxLayout.Y_AXIS));
@@ -107,6 +107,10 @@ public class BattleshipGUI {
         return letterAxisPanel;
 
     }
+    /**
+     * Helper method to create the number axis panel
+     * @return number axis panel
+     */
     public static JPanel createNumberAxis() {
         JPanel numberAxisPanel = new JPanel();
         numberAxisPanel.setLayout(new BoxLayout(numberAxisPanel, BoxLayout.X_AXIS));
@@ -125,6 +129,10 @@ public class BattleshipGUI {
         }
         return numberAxisPanel;
     }
+    /**
+     * Helper method to create button grid panel
+     * @return button grid panel
+     */
     public static JPanel createButtonGrid() {
         JPanel buttonGrid = new JPanel();
         buttonGrid.setLayout(new GridLayout(10, 10));
