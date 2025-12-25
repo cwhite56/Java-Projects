@@ -5,8 +5,8 @@ public class BattleshipClient {
 	PrintWriter out;
 	BufferedReader in;
 	public static void main(String[] args) throws IOException {
-		BattleshipClient client = new BattleshipClient();
-		client.setupNetworking();
+		//BattleshipClient client = new BattleshipClient();
+		//client.setupNetworking();
 		//GameInstance bs = new GameInstance(10);
 		BattleshipGUI gui = new BattleshipGUI();
 	}
