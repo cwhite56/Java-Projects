@@ -1,18 +1,29 @@
 import java.io.*;
 import java.net.*;
-import java.util.ArrayList;
-
+/**
+ * Class that represents the Battleship client that interacts with the server
+ */
 public class BattleshipClient {
-	PrintWriter out;
-	BufferedReader in;
-	ArrayList<Boolean> playerShipList = new ArrayList<>();
+	private PrintWriter out;
+	private BufferedReader in;
+	private Player player;
+	private BattleshipGUI gui;
 
-	public static void main(String[] args) throws IOException {
-		//BattleshipClient client = new BattleshipClient();
-		//client.setupNetworking();
-		BattleshipGUI gui = new BattleshipGUI();
+	public BattleshipClient() throws IOException{
+		player = new Player();
+		gui = new BattleshipGUI(player);
+		//setupNetworking();
+	
 	}
 
+	public static void main(String[] args) throws IOException {
+		BattleshipClient client = new BattleshipClient();
+	}
+
+	/**
+	 * Method to initialize connection to server
+	 * @throws IOException
+	 */
 	private void setupNetworking() throws IOException{
 	Socket socket = new Socket("localhost", 5000);
 	PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
@@ -24,9 +35,5 @@ public class BattleshipClient {
 	System.out.println(in.readLine());
 
 	socket.close();
-	}
-
-	public static void guess (int index) {
-
 	}
 }

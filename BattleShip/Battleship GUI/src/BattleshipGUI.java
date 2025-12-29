@@ -9,10 +9,16 @@ import java.util.ArrayList;
  */
 public class BattleshipGUI {
     
-    private static String[] letterAxis = {"A", "B", "C", "D", "E", "F", "G", "H", "I", "J"};
-    private static boolean selected = false;
+    private static final String[] LETTER_AXIS = {"A", "B", "C", "D", "E", "F", "G", "H", "I", "J"};
+    private static boolean localSelected = false;
+    private static boolean placementFinished = false;
+    private ArrayList<CustomJButton> guessButtonList;
+    private ArrayList<CustomJButton> placementButtonList;
+    private Player player;
 
-    public BattleshipGUI() {
+
+    public BattleshipGUI(Player player) {
+        this.player = player;
         initJFrame();
         
     }
@@ -31,7 +37,7 @@ public class BattleshipGUI {
         guessPanel.setLayout(new BorderLayout());
         frame.getContentPane().add(guessPanel);
     
-        guessPanel.add(createButtonGrid(), BorderLayout.CENTER);
+        guessButtonList = createButtonGrid(guessPanel, new GuessButtonListener());
 
         guessPanel.add(createLetterAxis(), BorderLayout.WEST);
 
@@ -54,7 +60,7 @@ public class BattleshipGUI {
         shipPlacementPanel.setLayout(new BorderLayout());
         frame.getContentPane().add(shipPlacementPanel);
 
-        shipPlacementPanel.add(createButtonGrid(), BorderLayout.CENTER);
+        placementButtonList = createButtonGrid(shipPlacementPanel, new PlaceButtonGridListener());
 
         shipPlacementPanel.add(createLetterAxis(), BorderLayout.WEST);
 
@@ -66,26 +72,13 @@ public class BattleshipGUI {
         shipPlacementPanel.add(placeArea, BorderLayout.EAST);
 
         JButton placeButton = new JButton("Place");
+        placeButton.addActionListener(new PlaceButtonListener());
         placeArea.add(placeButton);
 
         frame.setVisible(true);
         
 
         
-    }
-    class SubmitButtonListener implements ActionListener {
-
-            @Override
-            public void actionPerformed(ActionEvent e) {   
-            }
-
-        }
-    class CancelButtonListener implements ActionListener {
-
-        @Override
-        public void actionPerformed(ActionEvent e) {
-        }
-
     }
     /**
      * Helper method to create the letter axis panel
@@ -98,8 +91,8 @@ public class BattleshipGUI {
 
         CompoundBorder letterAxisBorder = new CompoundBorder(BorderFactory.createLineBorder(Color.BLACK, 1), BorderFactory.createEmptyBorder(12, 10, 12, 10));
 
-        for (int i = 0; i < letterAxis.length; i++) {
-            JLabel label = new JLabel(letterAxis[i]);
+        for (int i = 0; i < LETTER_AXIS.length; i++) {
+            JLabel label = new JLabel(LETTER_AXIS[i]);
             label.setBorder(letterAxisBorder);
             letterAxisPanel.add(label);
         }
@@ -122,7 +115,7 @@ public class BattleshipGUI {
         empty.setBorder(BorderFactory.createEmptyBorder(10, 15, 10, 15));
         numberAxisPanel.add(empty);
 
-        for (int i = 1; i <= letterAxis.length; i++) {
+        for (int i = 1; i <= LETTER_AXIS.length; i++) {
             JLabel label = new JLabel(Integer.toString(i));
             label.setBorder(numberAxisBorder);
             numberAxisPanel.add(label);
@@ -133,14 +126,121 @@ public class BattleshipGUI {
      * Helper method to create button grid panel
      * @return button grid panel
      */
-    public static JPanel createButtonGrid() {
+    public static ArrayList<CustomJButton> createButtonGrid(JPanel destination, ActionListener al) {
         JPanel buttonGrid = new JPanel();
+        ArrayList<CustomJButton> buttonList = new ArrayList<>();
         buttonGrid.setLayout(new GridLayout(10, 10));
 
         for (int i = 0; i < 100; i++) {
-            JButton button = new JButton();
+            CustomJButton button = new CustomJButton();
+            button.addActionListener(al);
+            buttonList.add(button);
             buttonGrid.add(button);
         }
-        return buttonGrid;
+
+        destination.add(buttonGrid, BorderLayout.CENTER);
+
+        return buttonList;
     }
+
+    public ArrayList<CustomJButton> getGuessButtonList() {
+        return guessButtonList;
+    }
+    /**
+     * Action Listener that sends player guess to the server through the client
+     */
+    class SubmitButtonListener implements ActionListener {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                for (int i = 0; i < guessButtonList.size(); i++) {
+
+                    if (guessButtonList.get(i).getSelected()) {
+                        guessButtonList.get(i).setBackground(new JButton().getBackground());
+                        guessButtonList.get(i).setSelected(false);
+
+                        player.setPlayerGuess(i);
+                    }
+                }
+            localSelected = false;
+            }
+
+    }
+    /**
+     * Action Listener that cancels current player guess
+     */
+    class CancelButtonListener implements ActionListener {
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            for (int i = 0; i < guessButtonList.size(); i++) {
+                guessButtonList.get(i).setBackground(new JButton().getBackground());
+                guessButtonList.get(i).setSelected(false);
+            }
+            localSelected = false;
+        }
+
+    }
+    /**
+     * Action Listener that locks in player's ship placement for the game
+     */
+    class PlaceButtonListener implements ActionListener {
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            for (int i = 0; i < placementButtonList.size(); i ++) {
+                if (placementButtonList.get(i).getSelected()) {
+                    player.setShipNode(i, true);
+                    
+                }
+            }
+            placementFinished = true;
+        }
+        
+    }
+    /**
+     * Action Listener that allows player to place thier ships on the board
+     */
+    class PlaceButtonGridListener implements ActionListener {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                
+                if (placementFinished) {
+                    return;
+                }
+
+                CustomJButton source = (CustomJButton) e.getSource();
+
+                if (!source.getSelected()) {
+                    source.setSelected(true);
+                    source.setText("[]");
+                }    
+            }
+
+    }
+    /**
+     * Action Listener that selects a location to be guessed
+     */
+    class GuessButtonListener implements ActionListener {
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+
+            if (localSelected) {
+                return;
+            }
+
+            CustomJButton source = (CustomJButton) e.getSource();
+
+            if (!source.getSelected()) {
+                source.setSelected(true);
+                source.setBackground(Color.RED);
+                localSelected = true;
+            }
+        }
+
+    }
+    
 }
