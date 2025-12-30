@@ -3,6 +3,7 @@ import javax.swing.border.CompoundBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.util.ArrayList;
 
 /** Class that represents the Battleship GUI
@@ -15,10 +16,12 @@ public class BattleshipGUI {
     private ArrayList<CustomJButton> guessButtonList;
     private ArrayList<CustomJButton> placementButtonList;
     private Player player;
+    private BattleshipClient client;
 
 
-    public BattleshipGUI(Player player) {
+    public BattleshipGUI(Player player, BattleshipClient client) {
         this.player = player;
+        this.client = client;
         initJFrame();
         
     }
@@ -160,10 +163,25 @@ public class BattleshipGUI {
                         guessButtonList.get(i).setBackground(new JButton().getBackground());
                         guessButtonList.get(i).setSelected(false);
 
-                        player.setPlayerGuess(i);
+                        boolean result = playerGuess(i);
                     }
                 }
             localSelected = false;
+            }
+            boolean playerGuess(int index) {
+                player.setPlayerGuess(index);
+                
+                try {
+
+                    return client.sendData();
+
+                } catch (IOException e) {
+
+                    return false;
+                }
+                
+
+
             }
 
     }

@@ -11,8 +11,8 @@ public class BattleshipClient {
 
 	public BattleshipClient() throws IOException{
 		player = new Player();
-		gui = new BattleshipGUI(player);
-		//setupNetworking();
+		gui = new BattleshipGUI(player, this);
+		setupNetworking();
 	
 	}
 
@@ -29,11 +29,20 @@ public class BattleshipClient {
 	PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
 	BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 
-	// write
+	// need way to send ship list to server
+	socket.close();
+	}
+	public boolean sendData() throws IOException{
+		//out.println(player.getPlayerGuess());
+		System.out.println(player.getPlayerGuess());
+
+		//return Boolean.parseBoolean(in.readLine());
+		return false;
+	}
+	
+}
+/*// write
 	out.println("Client message");
 	// read
 	System.out.println(in.readLine());
-
-	socket.close();
-	}
-}
+ */
