@@ -7,6 +7,7 @@ public class BattleshipClient {
 	private PrintWriter out;
 	private BufferedReader in;
 	private Socket socket;
+	private OutputStream outputStream;
 	private Player player;
 	private BattleshipGUI gui;
 	private static boolean gameFinished = false;
@@ -23,7 +24,7 @@ public class BattleshipClient {
 		while (!gameFinished) {
 
 		}
-		client.closeSocket();
+		client.closeStreams();
 	}
 
 	/**
@@ -39,22 +40,21 @@ public class BattleshipClient {
 
 	objectOutputStream.writeObject(player.getShipList());
 	
+	
 	}
-	public boolean sendData() throws IOException{
-
+	public /*boolean*/ void sendData() throws IOException{
 		out.println(player.getPlayerGuess());
 
-		return Boolean.parseBoolean(in.readLine());
+		return; //Boolean.parseBoolean(in.readLine());
 		
 	}
 
-	public void closeSocket() throws IOException {
+	public void closeStreams() throws IOException {
 		this.socket.close();
+		this.in.close();
+		this.out.close();
+		this.outputStream.close();
+
 	}
 	
 }
-/*// write
-	out.println("Client message");
-	// read
-	System.out.println(in.readLine());
- */

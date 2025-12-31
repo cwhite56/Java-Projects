@@ -162,26 +162,22 @@ public class BattleshipGUI {
                     if (guessButtonList.get(i).getSelected()) {
                         guessButtonList.get(i).setBackground(new JButton().getBackground());
                         guessButtonList.get(i).setSelected(false);
-
-                        boolean result = playerGuess(i);
+                        // if statement to change button symbol
+                        /*boolean result = */playerGuess(i);
                     }
                 }
             localSelected = false;
             }
-            boolean playerGuess(int index) {
+
+            /*boolean*/ void playerGuess(int index) {
                 player.setPlayerGuess(index);
                 
                 try {
+                    client.sendData();
 
-                    return client.sendData();
-
-                } catch (IOException e) {
-
-                    return false;
+                } catch (IOException io) {
+                    return;
                 }
-                
-
-
             }
 
     }
@@ -213,6 +209,15 @@ public class BattleshipGUI {
                     
                 }
             }
+            
+            if (!placementFinished) {
+                try {
+                    client.setupNetworking();
+
+                } catch (IOException io) {
+                    System.out.println("Networking failed");
+                }
+            }   
             placementFinished = true;
         }
         
