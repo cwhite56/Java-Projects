@@ -77,7 +77,6 @@ public class BattleshipGUI {
         JButton placeButton = new JButton("Place");
         placeButton.addActionListener(new PlaceButtonListener());
         placeArea.add(placeButton);
-
         frame.setVisible(true);
         
 
@@ -120,6 +119,7 @@ public class BattleshipGUI {
 
         for (int i = 1; i <= LETTER_AXIS.length; i++) {
             JLabel label = new JLabel(Integer.toString(i));
+            label.setPreferredSize(new Dimension(6, 40));
             label.setBorder(numberAxisBorder);
             numberAxisPanel.add(label);
         }
@@ -136,6 +136,8 @@ public class BattleshipGUI {
 
         for (int i = 0; i < 100; i++) {
             CustomJButton button = new CustomJButton();
+            //button.setPreferredSize(new Dimension(25, 25));
+            //button.setFont(new Font("TimesRoman", Font.PLAIN, 6));
             button.addActionListener(al);
             buttonList.add(button);
             buttonGrid.add(button);
