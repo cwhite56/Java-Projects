@@ -42,10 +42,10 @@ public class BattleshipClient {
 	
 	
 	}
-	public /*boolean*/ void sendData() throws IOException{
+	public boolean sendData() throws IOException{
 		out.println(player.getPlayerGuess());
-
-		return; //Boolean.parseBoolean(in.readLine());
+		
+		return Boolean.parseBoolean(in.readLine());
 		
 	}
 

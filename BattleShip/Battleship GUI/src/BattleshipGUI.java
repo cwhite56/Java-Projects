@@ -160,23 +160,33 @@ public class BattleshipGUI {
                 for (int i = 0; i < guessButtonList.size(); i++) {
 
                     if (guessButtonList.get(i).getSelected()) {
+
                         guessButtonList.get(i).setBackground(new JButton().getBackground());
                         guessButtonList.get(i).setSelected(false);
-                        // if statement to change button symbol
-                        /*boolean result = */playerGuess(i);
+                        
+                        boolean result = playerGuess(i);
+                        if (result) {
+                            guessButtonList.get(i).setText("O");
+                        }
+                        else {
+                            guessButtonList.get(i).setText("X");
+                        }
+
+
+
                     }
                 }
             localSelected = false;
             }
 
-            /*boolean*/ void playerGuess(int index) {
+            boolean playerGuess(int index) {
                 player.setPlayerGuess(index);
                 
                 try {
-                    client.sendData();
+                    return client.sendData();
 
                 } catch (IOException io) {
-                    return;
+                    return false;
                 }
             }
 

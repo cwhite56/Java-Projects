@@ -25,7 +25,7 @@ public class BattleshipServer {
         
     }
 
-    public void setupNetworkingServer()throws IOException, ClassNotFoundException {
+    public void setupNetworkingServer()throws IOException, ClassNotFoundException{
         serverSocket = new ServerSocket(5000);
         System.out.println("Server is running and waiting for client connection...");
 
@@ -45,19 +45,19 @@ public class BattleshipServer {
 
     private void readMessages() throws IOException{
 
-        String message = in.readLine();
+        String message;
 
-        System.out.println("Client says: " + message);
-        //gets index but only every other submission fix chain that sends boolean value based on index
+        //fix chain that sends boolean value based on index
         while((message = in.readLine()) != STOP_STRING) {
-
-            if (message != null) {
-                 System.out.println(in.readLine());
-                out.println("Message received by the server.");
+            
+            if (playerShipList.get(Integer.parseInt(message))) {
+                out.println("true");
             }
+            else if (!playerShipList.get(Integer.parseInt(message))) {
+                out.println("false");
+            }
+            
         }
-
-
         closeServerStreams();
     }
 
