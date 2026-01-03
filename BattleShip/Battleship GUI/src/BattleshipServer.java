@@ -1,9 +1,4 @@
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.ObjectInputStream;
-import java.io.PrintWriter;
+import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
@@ -17,9 +12,7 @@ public class BattleshipServer {
     private InputStream inputStream;
     private ArrayList<Boolean> playerShipList;
     public static void main(String args[]) throws IOException, ClassNotFoundException {
-        // get input for arraylist
-        // base output on whether incoming index is true or false
-        // maybe need a while look for message
+
         BattleshipServer server = new BattleshipServer();
         server.setupNetworkingServer();
         
@@ -47,7 +40,6 @@ public class BattleshipServer {
 
         String message;
 
-        //fix chain that sends boolean value based on index
         while((message = in.readLine()) != STOP_STRING) {
             
             if (playerShipList.get(Integer.parseInt(message))) {
@@ -62,10 +54,10 @@ public class BattleshipServer {
     }
 
     private void closeServerStreams() throws IOException {
-        clientSocket.close();
-        serverSocket.close();
-        in.close();
-        out.close();
-        inputStream.close();
+        this.clientSocket.close();
+        this.serverSocket.close();
+        this.in.close();
+        this.out.close();
+        this.inputStream.close();
     }
 }

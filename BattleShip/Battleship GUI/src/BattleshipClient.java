@@ -16,9 +16,8 @@ public class BattleshipClient {
 		player = new Player();
 		gui = new BattleshipGUI(player, this);
 		
-	
 	}
-
+// left to do: user error handling, stop string input, threading
 	public static void main(String[] args) throws IOException {
 		BattleshipClient client = new BattleshipClient();
 		while (!gameFinished) {

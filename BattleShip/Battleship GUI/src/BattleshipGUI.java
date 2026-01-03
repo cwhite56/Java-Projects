@@ -17,6 +17,9 @@ public class BattleshipGUI {
     private ArrayList<CustomJButton> placementButtonList;
     private Player player;
     private BattleshipClient client;
+    private ImageIcon shipSquare = ImageScaler.scaleImage("BattleShip\\Battleship GUI\\square.png");
+    private ImageIcon hitCircle = ImageScaler.scaleImage("BattleShip\\Battleship GUI\\circle.png");
+    private ImageIcon missX = ImageScaler.scaleImage("BattleShip\\Battleship GUI\\x.png");
 
 
     public BattleshipGUI(Player player, BattleshipClient client) {
@@ -136,9 +139,8 @@ public class BattleshipGUI {
 
         for (int i = 0; i < 100; i++) {
             CustomJButton button = new CustomJButton();
-            //button.setPreferredSize(new Dimension(25, 25));
-            //button.setFont(new Font("TimesRoman", Font.PLAIN, 6));
             button.addActionListener(al);
+            button.setPreferredSize(new Dimension(15, 15));
             buttonList.add(button);
             buttonGrid.add(button);
         }
@@ -168,12 +170,12 @@ public class BattleshipGUI {
                         
                         boolean result = playerGuess(i);
                         if (result) {
-                            guessButtonList.get(i).setText("O");
+                            guessButtonList.get(i).setIcon(hitCircle);;
                         }
                         else {
-                            guessButtonList.get(i).setText("X");
+                            guessButtonList.get(i).setIcon(missX);
                         }
-
+                        break;
 
 
                     }
@@ -250,7 +252,7 @@ public class BattleshipGUI {
 
                 if (!source.getSelected()) {
                     source.setSelected(true);
-                    source.setText("[]");
+                    source.setIcon(shipSquare);;
                 }    
             }
 
