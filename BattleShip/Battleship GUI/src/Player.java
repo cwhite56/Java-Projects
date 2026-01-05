@@ -32,7 +32,10 @@ public class Player {
     public int getPlayerGuess() {
         return currentGuess;
     }
-
+    /**
+     * Method that checks if any ships or ship nodes remain
+     * @return whether any ships / nodes remain
+     */
     public boolean shipsLeft() {
         for (int i = 0; i < shipList.size(); i++) {
             if (shipList.get(i)) {

@@ -1,6 +1,5 @@
 import java.io.*;
-import java.net.ServerSocket;
-import java.net.Socket;
+import java.net.*;
 import java.util.ArrayList;
 
 public class BattleshipServer {
@@ -9,7 +8,6 @@ public class BattleshipServer {
     private Socket clientSocket;
     private BufferedReader in;
     private PrintWriter out;
-    private InputStream inputStream;
     private ArrayList<Boolean> playerShipList;
     public static void main(String args[]) throws IOException, ClassNotFoundException {
 
@@ -17,7 +15,11 @@ public class BattleshipServer {
         server.setupNetworkingServer();
         
     }
-
+    /**
+     * Method that initializes all necessary streams to communicate with the client
+     * @throws IOException
+     * @throws ClassNotFoundException
+     */
     public void setupNetworkingServer()throws IOException, ClassNotFoundException{
         serverSocket = new ServerSocket(5000);
         System.out.println("Server is running and waiting for client connection...");
@@ -28,14 +30,16 @@ public class BattleshipServer {
         in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
         out = new PrintWriter(clientSocket.getOutputStream(), true);
 
-        inputStream = clientSocket.getInputStream();
-        ObjectInputStream objectInputStream = new ObjectInputStream(inputStream);
+        ObjectInputStream objectInputStream = new ObjectInputStream(clientSocket.getInputStream());
 
         playerShipList = (ArrayList<Boolean>)objectInputStream.readObject();
         
         readMessages();
     }
-
+    /**
+     * Method that reads messages from the client
+     * @throws IOException
+     */
     private void readMessages() throws IOException{
 
         String message;
@@ -52,7 +56,10 @@ public class BattleshipServer {
         }
         closeServerStreams();
     }
-
+    /**
+     * Method that closes all streams
+     * @throws IOException
+     */
     private void closeServerStreams() throws IOException {
         this.clientSocket.close();
         this.serverSocket.close();
