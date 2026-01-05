@@ -170,7 +170,8 @@ public class BattleshipGUI {
                         
                         boolean result = playerGuess(i);
                         if (result) {
-                            guessButtonList.get(i).setIcon(hitCircle);;
+                            guessButtonList.get(i).setIcon(hitCircle);
+                            player.setShipNode(i, false);
                         }
                         else {
                             guessButtonList.get(i).setIcon(missX);
@@ -181,6 +182,10 @@ public class BattleshipGUI {
                     }
                 }
             localSelected = false;
+
+            if (!player.shipsLeft()) {
+                client.finishGame();
+            }
             }
 
             boolean playerGuess(int index) {

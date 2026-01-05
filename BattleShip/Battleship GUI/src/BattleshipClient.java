@@ -10,18 +10,18 @@ public class BattleshipClient {
 	private OutputStream outputStream;
 	private Player player;
 	private BattleshipGUI gui;
-	private static boolean gameFinished = false;
+	private static volatile boolean gameFinished = false;
 
 	public BattleshipClient() throws IOException{
 		player = new Player();
 		gui = new BattleshipGUI(player, this);
 		
 	}
-// left to do: user error handling, stop string input, threading
+// left to do: user error handling, threading, formatting / oop principles
 	public static void main(String[] args) throws IOException {
 		BattleshipClient client = new BattleshipClient();
 		while (!gameFinished) {
-
+		
 		}
 		client.closeStreams();
 	}
@@ -47,13 +47,14 @@ public class BattleshipClient {
 		return Boolean.parseBoolean(in.readLine());
 		
 	}
+	public void finishGame() {
+		gameFinished = true;
+		out.println(BattleshipServer.STOP_STRING);
+	}
 
 	public void closeStreams() throws IOException {
 		this.socket.close();
-		this.in.close();
-		this.out.close();
-		this.outputStream.close();
-
+		System.out.println("Client closed successfully.");
 	}
 	
 }

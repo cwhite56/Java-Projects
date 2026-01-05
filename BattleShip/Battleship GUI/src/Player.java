@@ -32,4 +32,13 @@ public class Player {
     public int getPlayerGuess() {
         return currentGuess;
     }
+
+    public boolean shipsLeft() {
+        for (int i = 0; i < shipList.size(); i++) {
+            if (shipList.get(i)) {
+                return true;
+            }
+        }
+        return false;
+    }
 }

@@ -40,7 +40,7 @@ public class BattleshipServer {
 
         String message;
 
-        while((message = in.readLine()) != STOP_STRING) {
+        while(!(message = in.readLine()).equals(STOP_STRING)) {
             
             if (playerShipList.get(Integer.parseInt(message))) {
                 out.println("true");
@@ -56,8 +56,6 @@ public class BattleshipServer {
     private void closeServerStreams() throws IOException {
         this.clientSocket.close();
         this.serverSocket.close();
-        this.in.close();
-        this.out.close();
-        this.inputStream.close();
+        System.out.println("Server closed successfully.");
     }
 }
