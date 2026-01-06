@@ -4,10 +4,9 @@ import java.net.*;
  * Class that represents the Battleship client that interacts with the server
  */
 public class BattleshipClient {
+	private Socket socket;
 	private PrintWriter out;
 	private BufferedReader in;
-	private Socket socket;
-	private OutputStream outputStream;
 	private Player player;
 	private BattleshipGUI gui;
 	private static volatile boolean gameFinished = false;
@@ -17,7 +16,7 @@ public class BattleshipClient {
 		gui = new BattleshipGUI(player, this);
 		
 	}
-// left to do: user error handling, threading, formatting / oop principles
+// left to do: user error handling, threading
 	public static void main(String[] args) throws IOException {
 		BattleshipClient client = new BattleshipClient();
 		while (!gameFinished) {
@@ -25,7 +24,6 @@ public class BattleshipClient {
 		}
 		client.closeStreams();
 	}
-
 	/**
 	 * Method to initialize connection to server
 	 * @throws IOException
@@ -34,24 +32,30 @@ public class BattleshipClient {
 	socket = new Socket("localhost", 5000);
 	out = new PrintWriter(socket.getOutputStream(), true);
 	in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-	OutputStream outputStream = socket.getOutputStream();
-	ObjectOutputStream objectOutputStream = new ObjectOutputStream(outputStream); 
-
+	ObjectOutputStream objectOutputStream = new ObjectOutputStream(socket.getOutputStream()); 
 	objectOutputStream.writeObject(player.getShipList());
-	
-	
 	}
+	/**
+	 * Method to send a player guess through the TCP connection
+	 * @return whether that guess was a miss / hit
+	 * @throws IOException
+	 */
 	public boolean sendData() throws IOException{
 		out.println(player.getPlayerGuess());
 		
 		return Boolean.parseBoolean(in.readLine());
-		
 	}
+	/**
+	 * Method that signals a player has lost all of their ships to the server
+	 */
 	public void finishGame() {
 		gameFinished = true;
 		out.println(BattleshipServer.STOP_STRING);
 	}
-
+	/**
+	 * Method that closes all streams
+	 * @throws IOException
+	 */
 	public void closeStreams() throws IOException {
 		this.socket.close();
 		System.out.println("Client closed successfully.");

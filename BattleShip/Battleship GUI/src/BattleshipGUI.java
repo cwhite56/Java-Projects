@@ -11,16 +11,15 @@ import java.util.ArrayList;
 public class BattleshipGUI {
     
     private static final String[] LETTER_AXIS = {"A", "B", "C", "D", "E", "F", "G", "H", "I", "J"};
+    private ImageIcon shipSquare = ImageScaler.scaleImage("BattleShip\\Battleship GUI\\square.png");
+    private ImageIcon hitCircle = ImageScaler.scaleImage("BattleShip\\Battleship GUI\\circle.png");
+    private ImageIcon missX = ImageScaler.scaleImage("BattleShip\\Battleship GUI\\x.png");
     private static boolean localSelected = false;
     private static boolean placementFinished = false;
     private ArrayList<CustomJButton> guessButtonList;
     private ArrayList<CustomJButton> placementButtonList;
     private Player player;
     private BattleshipClient client;
-    private ImageIcon shipSquare = ImageScaler.scaleImage("BattleShip\\Battleship GUI\\square.png");
-    private ImageIcon hitCircle = ImageScaler.scaleImage("BattleShip\\Battleship GUI\\circle.png");
-    private ImageIcon missX = ImageScaler.scaleImage("BattleShip\\Battleship GUI\\x.png");
-
 
     public BattleshipGUI(Player player, BattleshipClient client) {
         this.player = player;
@@ -44,9 +43,7 @@ public class BattleshipGUI {
         frame.getContentPane().add(guessPanel);
     
         guessButtonList = createButtonGrid(guessPanel, new GuessButtonListener());
-
         guessPanel.add(createLetterAxis(), BorderLayout.WEST);
-
         guessPanel.add(createNumberAxis(), BorderLayout.SOUTH);
 
         JPanel submitArea = new JPanel();
@@ -67,9 +64,7 @@ public class BattleshipGUI {
         frame.getContentPane().add(shipPlacementPanel);
 
         placementButtonList = createButtonGrid(shipPlacementPanel, new PlaceButtonGridListener());
-
         shipPlacementPanel.add(createLetterAxis(), BorderLayout.WEST);
-
         shipPlacementPanel.add(createNumberAxis(), BorderLayout.SOUTH);
 
         JPanel placeArea = new JPanel();
@@ -81,9 +76,6 @@ public class BattleshipGUI {
         placeButton.addActionListener(new PlaceButtonListener());
         placeArea.add(placeButton);
         frame.setVisible(true);
-        
-
-        
     }
     /**
      * Helper method to create the letter axis panel
@@ -101,9 +93,7 @@ public class BattleshipGUI {
             label.setBorder(letterAxisBorder);
             letterAxisPanel.add(label);
         }
-
         return letterAxisPanel;
-
     }
     /**
      * Helper method to create the number axis panel
@@ -144,7 +134,6 @@ public class BattleshipGUI {
             buttonList.add(button);
             buttonGrid.add(button);
         }
-
         destination.add(buttonGrid, BorderLayout.CENTER);
 
         return buttonList;
@@ -157,7 +146,9 @@ public class BattleshipGUI {
      * Action Listener that sends player guess to the server through the client
      */
     class SubmitButtonListener implements ActionListener {
-
+            /**
+             * Method that takes the index of the selected guess button and sends it through the playerGuess method
+             */
             @Override
             public void actionPerformed(ActionEvent e) {
 
@@ -169,26 +160,24 @@ public class BattleshipGUI {
                         guessButtonList.get(i).setSelected(false);
                         
                         boolean result = playerGuess(i);
-                        if (result) {
-                            guessButtonList.get(i).setIcon(hitCircle);
-                            player.setShipNode(i, false);
-                        }
-                        else {
-                            guessButtonList.get(i).setIcon(missX);
-                        }
+
+                        setButtonIcon(i, result);
+
                         break;
-
-
                     }
                 }
-            localSelected = false;
 
-            if (!player.shipsLeft()) {
-                client.finishGame();
-            }
-            }
+                localSelected = false;
 
-            boolean playerGuess(int index) {
+                if (!player.shipsLeft()) {
+                    client.finishGame();
+                }
+            }
+            /**
+             * Method that sets the player guess and sends it as an index through the client to the server
+             * @return whether the guess was a hit / miss
+             */
+            private boolean playerGuess(int index) {
                 player.setPlayerGuess(index);
                 
                 try {
@@ -196,6 +185,22 @@ public class BattleshipGUI {
 
                 } catch (IOException io) {
                     return false;
+                }
+            }
+            /**
+             * Method that sets the guess button to the approrpiate icon whether a hit / miss occurred 
+             * @param index of the button guessed relative to the player's list of possible locations
+             * @param result of whether a hit / miss
+             */
+            private void setButtonIcon (int index, boolean result) {
+
+                if (result) {
+                    guessButtonList.get(index).setIcon(hitCircle);
+                    player.setShipNode(index, false);
+                }
+
+                else {
+                    guessButtonList.get(index).setIcon(missX);
                 }
             }
 
@@ -213,7 +218,6 @@ public class BattleshipGUI {
             }
             localSelected = false;
         }
-
     }
     /**
      * Action Listener that locks in player's ship placement for the game
@@ -223,9 +227,9 @@ public class BattleshipGUI {
         @Override
         public void actionPerformed(ActionEvent e) {
             for (int i = 0; i < placementButtonList.size(); i ++) {
+
                 if (placementButtonList.get(i).getSelected()) {
                     player.setShipNode(i, true);
-                    
                 }
             }
             
@@ -238,8 +242,7 @@ public class BattleshipGUI {
                 }
             }   
             placementFinished = true;
-        }
-        
+        } 
     }
     /**
      * Action Listener that allows player to place thier ships on the board
@@ -257,10 +260,9 @@ public class BattleshipGUI {
 
                 if (!source.getSelected()) {
                     source.setSelected(true);
-                    source.setIcon(shipSquare);;
+                    source.setIcon(shipSquare);
                 }    
             }
-
     }
     /**
      * Action Listener that selects a location to be guessed
@@ -282,7 +284,5 @@ public class BattleshipGUI {
                 localSelected = true;
             }
         }
-
-    }
-    
+    }   
 }
