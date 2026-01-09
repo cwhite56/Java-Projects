@@ -7,7 +7,7 @@ public class BattleshipServer {
     private static volatile int playerCount;
     private ServerSocket serverSocket;
     private Socket clientSocket;
-    private ArrayList<ArrayList<Boolean>> bothPlayerShipLists = new ArrayList<>();
+    private volatile ArrayList<ArrayList<Boolean>> bothPlayerShipLists = new ArrayList<>();
     public static void main(String args[]) throws IOException, ClassNotFoundException {
 
         BattleshipServer server = new BattleshipServer();
@@ -30,6 +30,33 @@ public class BattleshipServer {
         thread.start();
         }
     }
+    /**
+     * Method that takes the player number and returns the opposing player's ship list
+     * @param playerNumber of calling thread
+     * @return opposing player's ship list
+     */
+    public ArrayList<Boolean> getPlayerShipList(int playerNumber) {
+    
+        if (playerNumber == 0) {
+            while(bothPlayerShipLists.size() < 2) {
+
+            }
+            System.out.println("Reached");
+            return bothPlayerShipLists.get(1);
+        } 
+
+        else if (playerNumber == 1) {
+            return bothPlayerShipLists.get(0);
+        }
+
+        else {
+            return null;
+        }
+    }
+
+    private static void incrementPlayerCount() {
+        playerCount++;
+    }
 
     public int setPlayerNumber() {
 
@@ -38,36 +65,20 @@ public class BattleshipServer {
         if (temp == 0) {
             incrementPlayerCount();
             return temp;
+        }
 
-        } else if (temp == 1) {
+        else if (temp == 1) {
+            incrementPlayerCount();
             return temp;
-        
-        } else {
+        }
+
+        else {
             return -1;
         }
     }
+
     public void setPlayerShipList(int playerNumber, ArrayList<Boolean> playerShipList) {
         bothPlayerShipLists.add(playerNumber, playerShipList);
-    }
-
-    public synchronized ArrayList<Boolean> getPlayerShipList(int playerNumber) {
-        while (playerCount < 2) {
-
-        }
-        if (playerNumber == 0) {
-            return bothPlayerShipLists.get(1);
-
-        } else if (playerNumber == 1) {
-            return bothPlayerShipLists.get(0);
-        }
-        else {
-            return null;
-        }
-    }
-
-
-    private void incrementPlayerCount() {
-        playerCount++;
     }
     
 }

@@ -15,12 +15,14 @@ public class BattleshipThread implements Runnable{
         this.clientSocket = clientSocket;
         this.server = server;
     }
-
+    /**
+     * Run override that sets up I/O streams to communicate with the server and obtains player ship lists
+     */
     @Override
     public void run() {
         try {
             playerNumber = server.setPlayerNumber();
-
+            
             in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
             out = new PrintWriter(clientSocket.getOutputStream(), true);
 
@@ -41,10 +43,10 @@ public class BattleshipThread implements Runnable{
      * @throws IOException
      */
     private void readMessages() throws IOException{
-
+        
         String message;
         ArrayList<Boolean> opponentShipList = server.getPlayerShipList(playerNumber);
-
+        
         while(!(message = in.readLine()).equals(STOP_STRING)) {
             
             if (opponentShipList.get(Integer.parseInt(message))) {
