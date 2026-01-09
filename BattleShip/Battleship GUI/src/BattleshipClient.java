@@ -16,7 +16,7 @@ public class BattleshipClient {
 		gui = new BattleshipGUI(player, this);
 		
 	}
-// left to do: user error handling, threading
+// left to do: user error handling, threading bug
 	public static void main(String[] args) throws IOException {
 		BattleshipClient client = new BattleshipClient();
 		while (!gameFinished) {
@@ -42,7 +42,7 @@ public class BattleshipClient {
 	 */
 	public boolean sendData() throws IOException{
 		out.println(player.getPlayerGuess());
-		
+		// Bug right here
 		return Boolean.parseBoolean(in.readLine());
 	}
 	/**

@@ -6,6 +6,7 @@ public class BattleshipThread implements Runnable{
     private BufferedReader in;
     private PrintWriter out;
     private Socket clientSocket;
+    private int playerNumber;
     private ArrayList<Boolean> playerShipList;
     private BattleshipServer server;
     public static final String STOP_STRING = "##";
@@ -18,6 +19,8 @@ public class BattleshipThread implements Runnable{
     @Override
     public void run() {
         try {
+            playerNumber = server.setPlayerNumber();
+
             in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
             out = new PrintWriter(clientSocket.getOutputStream(), true);
 
@@ -25,7 +28,9 @@ public class BattleshipThread implements Runnable{
 
             playerShipList = (ArrayList<Boolean>)objectInputStream.readObject();
 
-             readMessages();
+            server.setPlayerShipList(playerNumber, playerShipList);
+
+            readMessages();
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -38,13 +43,14 @@ public class BattleshipThread implements Runnable{
     private void readMessages() throws IOException{
 
         String message;
+        ArrayList<Boolean> opponentShipList = server.getPlayerShipList(playerNumber);
 
         while(!(message = in.readLine()).equals(STOP_STRING)) {
             
-            if (playerShipList.get(Integer.parseInt(message))) {
+            if (opponentShipList.get(Integer.parseInt(message))) {
                 out.println("true");
             }
-            else if (!playerShipList.get(Integer.parseInt(message))) {
+            else if (!opponentShipList.get(Integer.parseInt(message))) {
                 out.println("false");
             }   
         }
